@@ -1,0 +1,49 @@
+﻿@model IEnumerable<BasketBallApp.Models.Game>
+@using Microsoft.AspNet.Identity;
+@{
+    ViewBag.Title = "List of paid member games";
+}
+@{
+    IEnumerable<BasketBallApp.Models.Game> distinctItems = Model.GroupBy(x => x.courtFees).Select(y => y.First());
+}
+
+
+    {
+        <h2>Index</h2>
+
+        <p>
+            @Html.ActionLink("Create New", "Create") |
+        </p>
+        <table class="table">
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.courtFees)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.AmountSpent)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Name)
+                </th>
+            </tr>
+
+
+            @foreach (var item in distinctItems)
+            {
+                var totalAmmount = Model.Where(x => x.courtFees == item.courtFees).Select(y => y.AmountSpent).ToList();
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.courtFees)
+                    </td>
+                    <td>
+                        
+                    </td>
+                    <td>
+                        @Html.ActionLink("Edit", "Edit", new { id = item.Name }) |
+                        @Html.ActionLink("Details", "Details", new { id = item.Name }) |
+                        @Html.ActionLink("Delete", "Delete", new { id = item.Name })
+                    </td>
+                </tr>
+            }
+        </table>
+}
